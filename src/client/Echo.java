@@ -9,10 +9,6 @@ public class Echo {
   private static EchoInt eo;
   
   public static void main(String[] args) {
-    if (args.length<2) {
-        System.out.println("Usage: Echo <host> <port#>");
-        System.exit(1);
-    }
  
     //EJERCICIO: crear una instancia del stub
     eo = new EchoObjectStub("127.0.0.1",4000);

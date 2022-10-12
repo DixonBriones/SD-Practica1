@@ -24,13 +24,10 @@ public class EchoMultiServer {
             //EJERCICIO: y crear un Thread para que la gestione
         try {
             new EchoMultiServerThread(serverSocket.accept()).start();
-            Thread.sleep(3000);
         } catch (IOException e) {
             System.err.println("Error sending/receiving" + e.getMessage());
             e.printStackTrace();
-      }   catch (InterruptedException ex) {
-              Logger.getLogger(EchoMultiServer.class.getName()).log(Level.SEVERE, null, ex);
-          }
+        }   
 
      	
      }
@@ -76,20 +73,13 @@ class EchoMultiServerThread extends Thread {
 
     public void run() {
        try {
+           String respuesta;
             while ((inputline = is.readLine()) != null) {
             	//EJERCICIO: Invocar el objeto 
             	//EJERCICIO: y devolver la respuesta por el socket 
-            	os= new PrintWriter(clientSocket.getOutputStream(), true);
-                is= new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                String inputLine;
-                while ((inputLine = is.readLine()) != null) {
-                    if (".".equals(inputLine)) {
-                        os.println("bye");
-                        break;
-                    }
-                    os.println(inputLine);
-                }	
-	
+            	respuesta=eo.echo(inputline);
+                os.println(respuesta);
+                os.flush();
             }
             os.close();
             is.close();

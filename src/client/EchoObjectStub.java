@@ -13,8 +13,8 @@ public class EchoObjectStub implements EchoInt {
   private Socket echoSocket = null;
   private PrintWriter os = null;
   private BufferedReader is = null;
-  private String host = "localhost";
-  private int port=7;
+  private String host = "127.0.0.1";
+  private int port=4000;
   private String output = "Error";
 
   
@@ -42,12 +42,15 @@ public class EchoObjectStub implements EchoInt {
   {
 	//EJERCICIO: Implemente el metodo connect
 	try {
-            echoSocket= new Socket(this.host,this.port);
-	} 
-	catch (IOException e) {
-		System.out.print(e.getMessage());
-	}  
-	    
+          echoSocket = new Socket(host, port);
+          is = new BufferedReader( new InputStreamReader(echoSocket.getInputStream()));
+          os = new PrintWriter(echoSocket.getOutputStream());
+        } catch (Exception e) {
+          System.out.println("Error de conexion: "+e.getMessage());
+          echoSocket = null;   
+          is = null;
+          os = null; 
+        }		  
   }
 
     private synchronized void disconnect(){ 
@@ -58,6 +61,9 @@ public class EchoObjectStub implements EchoInt {
 	} 
         catch (IOException e) {
             System.out.print(e.getMessage());
-	}  	  
+	}  
+        echoSocket = null;   
+        is = null;
+        os = null;   
     }
 }
